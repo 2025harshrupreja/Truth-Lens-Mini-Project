@@ -1,0 +1,31 @@
+domain,trust_level,category,score,label,notes
+reuters.com,trusted,news,95,Highly Reliable,Major international news agency with strict editorial standards
+bbc.com,trusted,news,92,Highly Reliable,British public broadcaster with global reputation
+apnews.com,trusted,news,95,Highly Reliable,Oldest and largest news agency in the United States
+nytimes.com,trusted,news,90,Highly Reliable,Leading American newspaper with Pulitzer-winning journalism
+washingtonpost.com,trusted,news,88,Highly Reliable,Major American newspaper known for investigative journalism
+theguardian.com,trusted,news,87,Highly Reliable,British broadsheet with strong international coverage
+npr.org,trusted,news,90,Highly Reliable,American public radio with balanced coverage
+snopes.com,trusted,factcheck,95,Authoritative Fact-Checker,Pioneering fact-checking website
+factcheck.org,trusted,factcheck,95,Authoritative Fact-Checker,Nonpartisan project of the Annenberg Public Policy Center
+politifact.com,trusted,factcheck,93,Authoritative Fact-Checker,Pulitzer Prize-winning fact-checking organization
+fullfact.org,trusted,factcheck,92,Authoritative Fact-Checker,UK independent fact-checking charity
+afp.com,trusted,news,94,Highly Reliable,Global news agency headquartered in Paris
+france24.com,trusted,news,85,Reliable,French international news channel
+dw.com,trusted,news,85,Reliable,German international broadcaster
+aljazeera.com,mixed,news,60,Use Caution,Qatar-funded network with varying editorial perspectives
+cnn.com,mixed,news,65,Moderately Reliable,Major American news network with some partisan perception
+foxnews.com,mixed,news,55,Use Caution,American conservative news network with partisan slant
+msnbc.com,mixed,news,58,Use Caution,American progressive news network with partisan slant
+huffpost.com,mixed,news,55,Use Caution,Progressive-leaning digital news outlet
+dailymail.co.uk,mixed,tabloid,45,Low Reliability,British tabloid known for sensationalism
+nypost.com,mixed,tabloid,50,Use Caution,American tabloid with conservative slant
+thesun.co.uk,mixed,tabloid,40,Low Reliability,British tabloid with sensationalist reporting
+breitbart.com,low,partisan,20,Unreliable,Far-right American news and opinion website
+infowars.com,low,conspiracy,5,Not Credible,Conspiracy theory and fake news website
+naturalnews.com,low,health_misinfo,10,Not Credible,Promotes health misinformation and conspiracy theories
+globalresearch.ca,low,conspiracy,15,Not Credible,Conspiracy-oriented website
+zerohedge.com,low,financial_misinfo,25,Unreliable,Financial blog with conspiracy content
+rt.com,low,state_media,30,State-Controlled,Russian state-controlled media outlet
+sputniknews.com,low,state_media,25,State-Controlled,Russian state-owned news agency
+thegatewaypundit.com,low,partisan,15,Not Credible,Far-right website with history of false claims
