@@ -23,7 +23,7 @@ These files require explicit approval before any changes:
 
 | Component | Technology | Location |
 |-----------|------------|----------|
-| Frontend | React + Vite + TypeScript | `src/` |
+| Frontend | React + Vite + TypeScript | `client/` |
 | Backend | FastAPI + Python | `backend/` |
 
 ## 🌿 GIT BRANCHES
