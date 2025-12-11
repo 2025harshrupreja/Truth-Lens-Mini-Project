@@ -49,7 +49,8 @@ npm run dev
 
 ### After completing something that works:
 ```bash
-git add .
+# Best practice: stage specific files
+git add <specific-files>
 git commit -m "feat: what you added"
 git push origin uday
 ```
@@ -98,8 +99,10 @@ PROJECT INFO:
 - Integration branch: dev
 - Production branch: main (Shivam manages)
 
-After completing features, remind me to: git add . && git commit -m "message" && git push origin uday
+After completing features, remind me to: git add <specific files> && git commit -m "message" && git push origin uday
 ```
+
+> 💡 **Note:** The `.agent/workflows/` folder contains automated rules for AI assistants. These are set up by Shivam and will auto-apply when you use AI tools.
 
 ---
 

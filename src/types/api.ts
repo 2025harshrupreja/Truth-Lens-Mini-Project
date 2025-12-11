@@ -37,8 +37,8 @@ export interface DomainTrust {
 
 export interface FactCheck {
     found: boolean;
-    rating: string | null;
-    summary: string | null;
+    rating?: string | null;
+    summary?: string | null;
     url?: string;
 }
 

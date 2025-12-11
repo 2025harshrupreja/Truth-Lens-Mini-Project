@@ -17,7 +17,7 @@
 
 | Name | Role | Branch |
 |------|------|--------|
-| **Shivam Yadav** | Project Lead | `shivam` |
+| **Shivam Yadav** | Developer | `shivam` |
 | **Harsh Rupreja** | Developer | `harsh` |
 | **Uday Dewani** | Developer | `uday` |
 
