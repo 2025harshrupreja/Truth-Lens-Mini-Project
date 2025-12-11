@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { UserPlus, Mail, Lock, Loader2, ArrowLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { UserPlus, Mail, Lock, Loader2, Shield, Eye, EyeOff, Zap, ShieldCheck } from 'lucide-react';
 import type { Page } from '../App';
 
 interface RegisterPageProps {
@@ -7,12 +7,37 @@ interface RegisterPageProps {
     onLogin: (email: string) => void;
 }
 
+// Custom hook for media queries (since Tailwind responsive classes don't work)
+function useMediaQuery(query: string): boolean {
+    const [matches, setMatches] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.matchMedia(query).matches;
+        }
+        return false;
+    });
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia(query);
+        const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
+
+        setMatches(mediaQuery.matches);
+        mediaQuery.addEventListener('change', handler);
+        return () => mediaQuery.removeEventListener('change', handler);
+    }, [query]);
+
+    return matches;
+}
+
 export function RegisterPage({ onNavigate, onLogin }: RegisterPageProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+
+    // Use JS-based media query detection
+    const isDesktop = useMediaQuery('(min-width: 768px)');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,12 +48,16 @@ export function RegisterPage({ onNavigate, onLogin }: RegisterPageProps) {
             return;
         }
 
+        if (password.length < 6) {
+            setError('Password must be at least 6 characters');
+            return;
+        }
+
         setLoading(true);
 
         try {
             const { register, login } = await import('../lib/api');
             await register({ email, password });
-            // Auto-login after registration
             await login({ email, password });
             onLogin(email);
             onNavigate('dashboard');
@@ -39,88 +68,220 @@ export function RegisterPage({ onNavigate, onLogin }: RegisterPageProps) {
         }
     };
 
+    const inputStyle: React.CSSProperties = {
+        width: '100%',
+        height: '48px',
+        paddingLeft: '48px',
+        paddingRight: '16px',
+        borderRadius: '12px',
+        color: 'white',
+        outline: 'none',
+        background: 'rgba(255,255,255,0.05)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        transition: 'all 0.2s',
+    };
+
     return (
-        <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-            {/* Atmospheric Background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#0F1419] to-[#0A0A0A]" />
-                <div className="absolute top-20 right-1/4 w-96 h-96 bg-[#99F8FF]/10 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-40 left-1/4 w-[500px] h-[500px] bg-[#00FFC3]/8 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
-            </div>
+        <div style={{ minHeight: '100vh', display: 'flex' }}>
+            {/* Left Panel - Branding (Desktop Only) */}
+            {isDesktop && (
+                <div style={{
+                    width: '50%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    padding: '48px',
+                    background: 'linear-gradient(135deg, #18181b 0%, #09090b 50%, #000 100%)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                }}>
+                    {/* Ambient Glow */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        width: '500px',
+                        height: '500px',
+                        borderRadius: '50%',
+                        opacity: 0.4,
+                        background: 'radial-gradient(circle, rgba(0,255,195,0.12) 0%, transparent 60%)',
+                    }} />
 
-            {/* Back Button */}
-            <button
-                onClick={() => onNavigate('landing')}
-                className="absolute top-6 left-6 z-20 flex items-center gap-2 text-[#D6D6D6] hover:text-white transition-colors"
-            >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="text-sm">Back to Home</span>
-            </button>
-
-            {/* Register Card */}
-            <div className="relative z-10 w-full max-w-md px-6">
-                <div className="p-8 rounded-3xl backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/10">
-                    {/* Header */}
-                    <div className="text-center mb-8">
-                        <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#99F8FF] to-[#00FFC3] flex items-center justify-center">
-                            <UserPlus className="w-7 h-7 text-black" />
+                    {/* Logo */}
+                    <button
+                        onClick={() => onNavigate('landing')}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            position: 'relative',
+                            zIndex: 10,
+                        }}
+                    >
+                        <div style={{
+                            width: '44px',
+                            height: '44px',
+                            borderRadius: '12px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'linear-gradient(135deg, #00FFC3 0%, #00CC99 100%)',
+                            boxShadow: '0 0 20px rgba(0,255,195,0.3)',
+                        }}>
+                            <Shield style={{ width: '24px', height: '24px', color: 'black' }} />
                         </div>
-                        <h1 className="text-2xl mb-2">Create Account</h1>
-                        <p className="text-[#D6D6D6] text-sm">Join TruthLens to verify claims</p>
+                        <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>TruthLens</span>
+                    </button>
+
+                    {/* Hero */}
+                    <div style={{ position: 'relative', zIndex: 10, maxWidth: '400px' }}>
+                        <h1 style={{ fontSize: '36px', fontWeight: 'bold', color: 'white', marginBottom: '16px', lineHeight: 1.2 }}>
+                            Join the fight against{' '}
+                            <span style={{
+                                background: 'linear-gradient(90deg, #00FFC3, #00CC99)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                            }}>misinformation</span>
+                        </h1>
+                        <p style={{ color: '#a1a1aa', fontSize: '18px', marginBottom: '32px' }}>
+                            Create your free account and start verifying content with AI-powered analysis.
+                        </p>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#d4d4d8' }}>
+                                <Zap style={{ width: '20px', height: '20px', color: '#00FFC3' }} />
+                                <span>Instant fact-checking results</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#d4d4d8' }}>
+                                <ShieldCheck style={{ width: '20px', height: '20px', color: '#00FFC3' }} />
+                                <span>Trusted source verification</span>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Error Message */}
+                    {/* Footer */}
+                    <p style={{ color: '#52525b', fontSize: '14px', position: 'relative', zIndex: 10 }}>
+                        © 2025 TruthLens. Reliable AI Verification.
+                    </p>
+                </div>
+            )}
+
+            {/* Right Panel - Form */}
+            <div style={{
+                width: isDesktop ? '50%' : '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: isDesktop ? '48px' : '24px',
+                background: '#0a0a0a',
+            }}>
+                <div style={{ width: '100%', maxWidth: '400px' }}>
+                    {/* Mobile Logo */}
+                    {!isDesktop && (
+                        <button
+                            onClick={() => onNavigate('landing')}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                margin: '0 auto 32px auto',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            <div style={{
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '12px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: 'linear-gradient(135deg, #00FFC3 0%, #00CC99 100%)',
+                            }}>
+                                <Shield style={{ width: '20px', height: '20px', color: 'black' }} />
+                            </div>
+                            <span style={{ fontSize: '18px', fontWeight: 'bold', color: 'white' }}>TruthLens</span>
+                        </button>
+                    )}
+
+                    {/* Header */}
+                    <div style={{ textAlign: isDesktop ? 'left' : 'center', marginBottom: '32px' }}>
+                        <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>Create an account</h2>
+                        <p style={{ color: '#a1a1aa', fontSize: '14px' }}>Get started with TruthLens today</p>
+                    </div>
+
+                    {/* Error */}
                     {error && (
-                        <div className="mb-6 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                        <div style={{
+                            marginBottom: '24px',
+                            padding: '12px',
+                            borderRadius: '8px',
+                            background: 'rgba(239,68,68,0.1)',
+                            border: '1px solid rgba(239,68,68,0.2)',
+                            color: '#f87171',
+                            fontSize: '14px',
+                            textAlign: 'center',
+                        }}>
                             {error}
                         </div>
                     )}
 
                     {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         <div>
-                            <label className="block text-sm text-[#D6D6D6] mb-2">Email</label>
-                            <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#d4d4d8', marginBottom: '8px' }}>Email</label>
+                            <div style={{ position: 'relative' }}>
+                                <Mail style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', color: '#71717a' }} />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
                                     placeholder="you@example.com"
-                                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-[#00FFC3]/50 focus:outline-none focus:ring-1 focus:ring-[#00FFC3]/30 transition-all placeholder:text-[#666]"
+                                    style={inputStyle}
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm text-[#D6D6D6] mb-2">Password</label>
-                            <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#d4d4d8', marginBottom: '8px' }}>Password</label>
+                            <div style={{ position: 'relative' }}>
+                                <Lock style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', color: '#71717a' }} />
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                     minLength={6}
-                                    placeholder="••••••••"
-                                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-[#00FFC3]/50 focus:outline-none focus:ring-1 focus:ring-[#00FFC3]/30 transition-all placeholder:text-[#666]"
+                                    placeholder="Min 6 characters"
+                                    style={{ ...inputStyle, paddingRight: '48px' }}
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#71717a' }}
+                                >
+                                    {showPassword ? <EyeOff style={{ width: '20px', height: '20px' }} /> : <Eye style={{ width: '20px', height: '20px' }} />}
+                                </button>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm text-[#D6D6D6] mb-2">Confirm Password</label>
-                            <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#d4d4d8', marginBottom: '8px' }}>Confirm Password</label>
+                            <div style={{ position: 'relative' }}>
+                                <Lock style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', color: '#71717a' }} />
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                     minLength={6}
-                                    placeholder="••••••••"
-                                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-[#00FFC3]/50 focus:outline-none focus:ring-1 focus:ring-[#00FFC3]/30 transition-all placeholder:text-[#666]"
+                                    placeholder="Confirm password"
+                                    style={inputStyle}
                                 />
                             </div>
                         </div>
@@ -128,38 +289,49 @@ export function RegisterPage({ onNavigate, onLogin }: RegisterPageProps) {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3 rounded-xl bg-gradient-to-r from-[#99F8FF] to-[#00FFC3] text-black font-medium hover:shadow-[0_0_40px_rgba(153,248,255,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            style={{
+                                width: '100%',
+                                height: '48px',
+                                borderRadius: '12px',
+                                border: 'none',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                opacity: loading ? 0.5 : 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '8px',
+                                background: 'linear-gradient(135deg, #00FFC3 0%, #00CC99 100%)',
+                                color: 'black',
+                                fontWeight: 600,
+                                fontSize: '16px',
+                                boxShadow: '0 4px 15px rgba(0,255,195,0.3)',
+                                transition: 'all 0.3s',
+                                marginTop: '8px',
+                            }}
                         >
-                            {loading ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                    Creating account...
-                                </>
-                            ) : (
-                                <>
-                                    <UserPlus className="w-4 h-4" />
-                                    Create Account
-                                </>
-                            )}
+                            {loading ? <Loader2 style={{ width: '20px', height: '20px', animation: 'spin 1s linear infinite' }} /> : <>Create Account <UserPlus style={{ width: '20px', height: '20px' }} /></>}
                         </button>
                     </form>
 
-                    {/* Footer */}
-                    <div className="mt-6 text-center text-sm text-[#D6D6D6]">
+                    {/* Divider */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '24px 0' }}>
+                        <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+                        <span style={{ fontSize: '12px', color: '#71717a' }}>or</span>
+                        <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+                    </div>
+
+                    {/* Sign In Link */}
+                    <p style={{ textAlign: 'center', fontSize: '14px', color: '#a1a1aa' }}>
                         Already have an account?{' '}
                         <button
                             onClick={() => onNavigate('login')}
-                            className="text-[#00FFC3] hover:text-[#99F8FF] transition-colors"
+                            style={{ color: '#00FFC3', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
                         >
                             Sign in
                         </button>
-                    </div>
+                    </p>
                 </div>
             </div>
-
-            {/* Floating orbs */}
-            <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-[#99F8FF] rounded-full blur-sm animate-pulse" />
-            <div className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-[#00FFC3] rounded-full blur-sm animate-pulse" style={{ animationDelay: '0.5s' }} />
         </div>
     );
 }
