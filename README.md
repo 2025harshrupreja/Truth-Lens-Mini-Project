@@ -11,6 +11,10 @@
 
 </div>
 
+> [!IMPORTANT]
+> **Dec 2024 - Frontend Restructured!** 
+> The frontend moved from `src/` to `client/`. Run: `cd client && npm install`
+
 ---
 
 ## 👥 Team
