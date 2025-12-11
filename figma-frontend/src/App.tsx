@@ -13,43 +13,43 @@ export type UserMode = 'Basic' | 'Creator' | 'Professional';
 export type Page = 'landing' | 'dashboard' | 'verify-media' | 'verify-article' | 'history' | 'projects' | 'organization' | 'settings';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('landing');
-  const [userMode, setUserMode] = useState<UserMode>('Basic');
+    const [currentPage, setCurrentPage] = useState<Page>('landing');
+    const [userMode, setUserMode] = useState<UserMode>('Basic');
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'landing':
-        return <LandingPage onNavigate={setCurrentPage} />;
-      case 'dashboard':
-        return <Dashboard onNavigate={setCurrentPage} userMode={userMode} />;
-      case 'verify-media':
-        return <ImageVideoUpload userMode={userMode} />;
-      case 'verify-article':
-        return <ArticleVerification userMode={userMode} />;
-      case 'history':
-        return <HistoryPage />;
-      case 'projects':
-        return <ProjectsPage userMode={userMode} />;
-      case 'organization':
-        return <OrganizationPage />;
-      case 'settings':
-        return <SettingsPage />;
-      default:
-        return <LandingPage onNavigate={setCurrentPage} />;
-    }
-  };
+    const renderPage = () => {
+        switch (currentPage) {
+            case 'landing':
+                return <LandingPage onNavigate={setCurrentPage} />;
+            case 'dashboard':
+                return <Dashboard onNavigate={setCurrentPage} userMode={userMode} />;
+            case 'verify-media':
+                return <ImageVideoUpload userMode={userMode} />;
+            case 'verify-article':
+                return <ArticleVerification userMode={userMode} />;
+            case 'history':
+                return <HistoryPage />;
+            case 'projects':
+                return <ProjectsPage userMode={userMode} />;
+            case 'organization':
+                return <OrganizationPage />;
+            case 'settings':
+                return <SettingsPage />;
+            default:
+                return <LandingPage onNavigate={setCurrentPage} />;
+        }
+    };
 
-  return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      {currentPage !== 'landing' && (
-        <Navigation
-          currentPage={currentPage}
-          onNavigate={setCurrentPage}
-          userMode={userMode}
-          onModeChange={setUserMode}
-        />
-      )}
-      {renderPage()}
-    </div>
-  );
+    return (
+        <div className="min-h-screen bg-[#0A0A0A] text-white">
+            {currentPage !== 'landing' && (
+                <Navigation
+                    currentPage={currentPage}
+                    onNavigate={setCurrentPage}
+                    userMode={userMode}
+                    onModeChange={setUserMode}
+                />
+            )}
+            {renderPage()}
+        </div>
+    );
 }

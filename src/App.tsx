@@ -11,6 +11,7 @@ import { ProjectsPage } from './components/ProjectsPage';
 import { OrganizationPage } from './components/OrganizationPage';
 import { SettingsPage } from './components/SettingsPage';
 import { Navigation } from './components/Navigation';
+import { ComingSoonOverlay } from './components/ComingSoonOverlay';
 import { isAuthenticated, logout } from './lib/api';
 
 export type UserMode = 'Basic' | 'Creator' | 'Professional';
@@ -94,11 +95,23 @@ function AppContent() {
         <Route path="/login" element={<LoginPage onNavigate={handleNavigate} onLogin={handleLogin} />} />
         <Route path="/register" element={<RegisterPage onNavigate={handleNavigate} onLogin={handleLogin} />} />
         <Route path="/dashboard" element={<Dashboard onNavigate={handleNavigate} userMode={userMode} />} />
-        <Route path="/verify-media" element={<ImageVideoUpload userMode={userMode} />} />
+        <Route path="/verify-media" element={
+          <ComingSoonOverlay title="Media Verification">
+            <ImageVideoUpload userMode={userMode} />
+          </ComingSoonOverlay>
+        } />
         <Route path="/verify-article" element={<ArticleVerification userMode={userMode} onNavigate={handleNavigate} isAuthenticated={authenticated} />} />
         <Route path="/history" element={<HistoryPage onNavigate={handleNavigate} />} />
-        <Route path="/projects" element={<ProjectsPage userMode={userMode} />} />
-        <Route path="/organization" element={<OrganizationPage />} />
+        <Route path="/projects" element={
+          <ComingSoonOverlay title="Projects">
+            <ProjectsPage userMode={userMode} />
+          </ComingSoonOverlay>
+        } />
+        <Route path="/organization" element={
+          <ComingSoonOverlay title="Enterprise">
+            <OrganizationPage />
+          </ComingSoonOverlay>
+        } />
         <Route path="/settings" element={<SettingsPage />} />
       </Routes>
     </div>
