@@ -36,17 +36,17 @@ services:
       - ./backend:/app
       - ./data:/app/data
 
-  frontend:
+  client:
     build:
-      context: ./frontend
+      context: ./client
       dockerfile: Dockerfile
-    container_name: truthlens_frontend
+    container_name: truthlens_client
     ports:
       - "5173:5173"
     environment:
       - VITE_API_URL=http://localhost:8000
     volumes:
-      - ./frontend:/app
+      - ./client:/app
       - /app/node_modules
     depends_on:
       - backend
