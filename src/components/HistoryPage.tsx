@@ -24,19 +24,27 @@ export function HistoryPage({ onNavigate }: HistoryPageProps) {
         setError(null);
         try {
             const response = await getHistory();
-            // getHistory returns HistoryItem[] directly
-            setHistory(response);
+            // Ensure response is an array (API might return object with items property)
+            let items: HistoryItem[] = [];
+            if (Array.isArray(response)) {
+                items = response;
+            } else if (response && typeof response === 'object' && 'items' in response) {
+                items = (response as { items: HistoryItem[] }).items;
+            }
+            setHistory(items);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load history');
+            setHistory([]); // Reset to empty array on error
         } finally {
             setLoading(false);
         }
     };
 
-    const filteredData = history.filter(item =>
+    // Defensive check: ensure history is an array before filtering
+    const filteredData = Array.isArray(history) ? history.filter(item =>
         (item.claim || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.verdict?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    ) : [];
 
     const getVerdictColor = (verdict?: string) => {
         if (!verdict) return 'text-[#D6D6D6]';
