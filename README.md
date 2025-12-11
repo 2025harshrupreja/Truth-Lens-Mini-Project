@@ -12,7 +12,7 @@
 </div>
 
 > [!IMPORTANT]
-> **Dec 2024 - Frontend Restructured!** 
+> **Dec 2025 - Frontend Restructured!** 
 > The frontend moved from `src/` to `client/`. Run: `cd client && npm install`
 
 ---
