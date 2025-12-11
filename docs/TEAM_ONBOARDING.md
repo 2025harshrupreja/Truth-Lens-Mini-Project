@@ -121,6 +121,7 @@ JWT_SECRET=your-super-secret-jwt-key-change-in-production
 ```
 
 ```bash
+cd client
 npm install
 ```
 
@@ -160,6 +161,7 @@ You should see 3 containers running:
 docker stop truthlens_frontend
 
 # Start local frontend
+cd client
 npm run dev
 ```
 
@@ -292,7 +294,7 @@ PROTECTED FILES (ask before modifying):
 - src/lib/api.ts
 
 PROJECT INFO:
-- Frontend: React + Vite + TypeScript (src/)
+- Frontend: React + Vite + TypeScript (client/src/)
 - Backend: FastAPI + Python (backend/)
 - My branch: YOUR_NAME
 ```
@@ -307,8 +309,8 @@ PROJECT INFO:
 
 | Folder | What's Inside |
 |--------|---------------|
-| `src/components/` | React pages and components |
-| `src/lib/api.ts` | API functions (shared, be careful!) |
+| `client/src/components/` | React pages and components |
+| `client/src/lib/api.ts` | API functions (shared, be careful!) |
 | `backend/app/api/` | Backend endpoints |
 | `backend/app/services/` | Backend logic |
 | `docs/` | Documentation |
