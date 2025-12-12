@@ -4,14 +4,16 @@ TruthLens Authentication API
 Provides user registration and login endpoints.
 """
 
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
 
 from app.core.database import get_db
-from app.core.security import hash_password, verify_password, create_access_token
+from app.core.security import hash_password, verify_password, create_access_token, get_current_user
 from app.models.user import User
+from app.models.check import Check
 
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -43,6 +45,48 @@ class UserResponse(BaseModel):
     
     class Config:
         from_attributes = True
+
+
+class ProfileResponse(BaseModel):
+    """User profile response with stats."""
+    id: int
+    email: str
+    member_since: datetime
+    total_analyses: int
+
+
+@router.get("/me", response_model=ProfileResponse)
+async def get_current_user_profile(
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Get current user's profile with stats.
+    
+    Returns:
+        User profile with email, member_since date, and total analyses count
+    """
+    user_id = current_user['user_id']
+    
+    # Get user data
+    user_result = await db.execute(select(User).where(User.id == user_id))
+    user = user_result.scalar_one_or_none()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Count total analyses
+    count_result = await db.execute(
+        select(func.count()).select_from(Check).where(Check.user_id == user_id)
+    )
+    total_analyses = count_result.scalar() or 0
+    
+    return ProfileResponse(
+        id=user.id,
+        email=user.email,
+        member_since=user.created_at,
+        total_analyses=total_analyses
+    )
 
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)

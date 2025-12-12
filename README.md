@@ -11,6 +11,10 @@
 
 </div>
 
+> [!IMPORTANT]
+> **Dec 2025 - Frontend Restructured!** 
+> The frontend moved from `src/` to `client/`. Run: `cd client && npm install`
+
 ---
 
 ## 👥 Team
@@ -64,16 +68,17 @@
 
 ```
 TruthLens/
-├── src/                          # Frontend (React)
-│   ├── components/               # React components
-│   │   ├── LandingPage.tsx      # Landing page
-│   │   ├── Dashboard.tsx        # User dashboard
-│   │   ├── ArticleVerification.tsx  # Main analysis UI
-│   │   ├── HistoryPage.tsx      # Analysis history
-│   │   └── ...
-│   ├── lib/                     # Utilities
-│   │   └── api.ts               # API client
-│   └── types/                   # TypeScript definitions
+├── client/                       # Frontend (React + Vite)
+│   ├── src/
+│   │   ├── components/          # React components
+│   │   │   ├── LandingPage.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── ArticleVerification.tsx
+│   │   │   └── ...
+│   │   ├── lib/                 # Utilities (api.ts)
+│   │   └── types/               # TypeScript definitions
+│   ├── package.json
+│   └── vite.config.ts
 │
 ├── backend/                     # Backend (FastAPI)
 │   └── app/
@@ -134,6 +139,7 @@ docker-compose up -d
 
 ### 4. Install Frontend Dependencies
 ```bash
+cd client
 npm install
 ```
 

@@ -13,6 +13,7 @@ git checkout -b uday
 git push -u origin uday
 
 # Install dependencies
+cd client
 npm install
 ```
 
@@ -40,6 +41,7 @@ git pull origin dev
 docker-compose up -d
 
 # Start frontend
+cd client
 npm run dev
 ```
 
@@ -93,7 +95,7 @@ CRITICAL RULES:
    - src/lib/api.ts (be careful with shared API functions)
 
 PROJECT INFO:
-- Frontend: React + Vite + TypeScript (src/)
+- Frontend: React + Vite + TypeScript (client/src/)
 - Backend: FastAPI + Python (backend/)
 - My branch: uday
 - Integration branch: dev
@@ -126,8 +128,8 @@ Ask in group chat, Shivam will help!
 
 | Location | What's There |
 |----------|--------------|
-| `src/components/` | React pages & components |
-| `src/lib/api.ts` | API functions |
+| `client/src/components/` | React pages & components |
+| `client/src/lib/api.ts` | API functions |
 | `backend/app/api/v1/` | Backend endpoints |
 | `backend/app/services/` | Backend logic |
 

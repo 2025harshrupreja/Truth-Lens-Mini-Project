@@ -43,24 +43,25 @@ async def llm_assess_claim(claim: str) -> dict:
         genai.configure(api_key=settings.gemini_api_key)
         model = genai.GenerativeModel('gemini-2.5-flash')
         
-        prompt = f"""You are a fact-checker AI. Assess the following claim based on widely known, verifiable facts.
+        prompt = f"""You are a fact-checker AI. Assess the following claim based on scientific consensus and widely verified facts.
 
 CLAIM: "{claim}"
 
 Instructions:
-1. If this claim can be verified with common knowledge (dates, ages, well-known facts), provide a verdict.
-2. If it requires specialized research, say "UNCERTAIN".
-3. Be conservative - only say TRUE or FALSE if you're confident.
+1. For well-known FALSE claims (flat earth, vaccine microchips, 5G conspiracies, etc.) - say FALSE with HIGH confidence.
+2. For well-known TRUE claims backed by scientific consensus (climate change, vaccine safety, etc.) - say TRUE with HIGH confidence.
+3. ONLY say UNCERTAIN if the claim is genuinely ambiguous or requires very recent/specialized information.
+4. Be DECISIVE - most common misinformation claims have clear answers.
 
 Respond in this EXACT format:
 VERDICT: [TRUE/FALSE/UNCERTAIN]
 CONFIDENCE: [HIGH/MEDIUM/LOW]
 REASONING: [1-2 sentence explanation with specific facts]
 
-Example for "Barack Obama is 100 years old":
-VERDICT: FALSE
-CONFIDENCE: HIGH
-REASONING: Barack Obama was born on August 4, 1961, making him approximately 63 years old in 2024, not 100.
+Examples:
+- "Earth is flat" → VERDICT: FALSE, CONFIDENCE: HIGH (Well-documented scientific fact since ancient times)
+- "Vaccines cause autism" → VERDICT: FALSE, CONFIDENCE: HIGH (Debunked by extensive research, original study retracted)
+- "Climate change is real" → VERDICT: TRUE, CONFIDENCE: HIGH (97% scientific consensus)
 
 Now assess the claim:"""
 
