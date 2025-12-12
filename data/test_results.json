@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "text": "The Earth is flat and NASA has been hiding this for decades....",
+    "expected": "Likely False",
+    "actual": "Likely False",
+    "confidence": "high",
+    "factcheck_found": true,
+    "explanation_preview": "Our analysis indicates this claim is **Likely False** with **high confidence**. Fact-checks, includi...",
+    "match": true,
+    "status": "success"
+  },
+  {
+    "id": 2,
+    "text": "COVID-19 vaccines contain microchips for tracking people....",
+    "expected": "Likely False",
+    "actual": "Likely False",
+    "confidence": "high",
+    "factcheck_found": true,
+    "explanation_preview": "The claim that COVID-19 vaccines contain microchips is considered Likely False with high confidence....",
+    "match": true,
+    "status": "success"
+  },
+  {
+    "id": 3,
+    "text": "Climate change is primarily caused by human activities accor...",
+    "expected": "Likely True",
+    "actual": "Likely False",
+    "confidence": "high",
+    "factcheck_found": true,
+    "explanation_preview": "The claim \"Human activities are the primary cause of climate change\" is rated as Likely False. This ...",
+    "match": false,
+    "status": "success"
+  },
+  {
+    "id": 4,
+    "text": "The Great Wall of China is visible from space with the naked...",
+    "expected": "Likely False",
+    "actual": "Likely False",
+    "confidence": "high",
+    "factcheck_found": true,
+    "explanation_preview": "This claim has been rated as 'False' by Snopes.com. Our verdict is Likely False with high confidence...",
+    "match": true,
+    "status": "success"
+  },
+  {
+    "id": 5,
+    "text": "5G towers cause cancer and spread viruses....",
+    "expected": "Likely False",
+    "actual": "Needs More Verification",
+    "confidence": "low",
+    "factcheck_found": false,
+    "explanation_preview": "Based on limited or mixed evidence, our analysis suggests this claim is Needs More Verification. Con...",
+    "match": false,
+    "status": "success"
+  },
+  {
+    "id": 6,
+    "text": "Water fluoridation is a safe public health measure that redu...",
+    "expected": "Likely True",
+    "actual": "Likely True",
+    "confidence": "high",
+    "factcheck_found": true,
+    "explanation_preview": "This claim has been rated as 'True' by Science Feedback. Our verdict is Likely True with high confid...",
+    "match": true,
+    "status": "success"
+  },
+  {
+    "id": 7,
+    "text": "Government confirms alien contact and cover-up since 1947....",
+    "expected": "Needs More Verification",
+    "actual": "Needs More Verification",
+    "confidence": "low",
+    "factcheck_found": false,
+    "explanation_preview": "Based on limited or mixed evidence, our analysis suggests this claim is Needs More Verification. Con...",
+    "match": true,
+    "status": "success"
+  }
+]

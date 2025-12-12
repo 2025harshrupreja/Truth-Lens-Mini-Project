@@ -155,10 +155,10 @@ export function LandingPage({ onNavigate, isAuthenticated, onLogout }: LandingPa
           </div>
 
           {/* Scroll Indicator */}
-          <div className="flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-xs text-[#D6D6D6]">Scroll down</span>
-            <ChevronDown className="w-4 h-4 text-[#00FFC3]" />
-          </div>
+          {/* <div className="flex flex-col items-center gap-2 animate-bounce"> */}
+          {/* <span className="text-xs text-[#D6D6D6]">Scroll down</span> */}
+          {/* <ChevronDown className="w-4 h-4 text-[#00FFC3]" /> */}
+          {/* </div> */}
         </div>
 
         {/* Tech Logos */}
